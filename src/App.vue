@@ -1,5 +1,6 @@
 <template lang ="pug">
   #app
+    mheader
     section.section
       nav.nav.has-shadow
         .container
@@ -18,13 +19,17 @@
         .columns
           .column(v-for="t in tracks")
             | {{ t.name }} - {{ t.artists[0].name}}
+    mfooter
 </template>
 
 <script>
   import musicService from './services/track'
+  import Mfooter from './components/layouts/Footer.vue'
+  import Mheader from './components/layouts/Header.vue'
 
 export default {
   name: 'app',
+  components: { Mfooter, Mheader },
   data () {
     return {
         searchQuery: '',
