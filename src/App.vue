@@ -2,6 +2,10 @@
   #app
     mheader
 
+    m-notification(v-show="showNotification"  :isSuccess="showFind")
+      p(slot="body" v-show="!showFind") No se encontraron resultados
+      p(slot="body" v-show="showFind") {{ searchMessage }}
+
     mloader(v-show="isLoading")
     section.section(v-show="!isLoading")
       nav.nav
@@ -33,15 +37,18 @@
   import Mheader from '@/components/layouts/Header.vue'
   import Mtrack from '@/components/Track.vue'
   import Mloader from '@/components/shared/Loader.vue'
+  import MNotification from '@/components/shared/Notification.vue'
 export default {
   name: 'app',
-  components: { Mfooter, Mheader, Mtrack, Mloader },
+  components: { Mfooter, Mheader, Mtrack, Mloader, MNotification },
   data () {
     return {
         searchQuery: '',
         tracks: [],
         isLoading: false,
-        selectedTrack: ''
+        selectedTrack: '',
+        showNotification: false,
+        showFind: false
        }
   },
   methods: {
@@ -50,6 +57,10 @@ export default {
         this.isLoading = true
         musicService.search(this.searchQuery)
             .then(res => {
+                if( res.tracks.total > 0){
+                    this.showFind = true
+                }
+                this.showNotification = true
                 this.tracks = res.tracks.items
                 this.isLoading = false
             })
@@ -62,6 +73,16 @@ export default {
   computed: {
       searchMessage () {
           return `Encontrados: ${this.tracks.length}`
+      }
+  },
+  watch: {
+      showNotification () {
+          if(this.showNotification) {
+              setTimeout(() => {
+                  this.showNotification = false
+                  this.showFind = false
+              },3000)
+          }
       }
   }
 }
