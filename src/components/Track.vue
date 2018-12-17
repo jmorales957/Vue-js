@@ -1,5 +1,5 @@
 <template lang="pug">
-  .card
+  .card(v-if="track && track.album")
     .card.image
       figure.image.is-1by1
         img(v-bind:src="track.album.images[0].url")
@@ -18,10 +18,12 @@
           .level-left
             a.level-item
               span.icon.is-small(@click="selectTrack") play
+            a.level-item
+              span.icon.is-small(@click="goToTrack(track.id)") detalle
 </template>
 
 <script>
-  import TrackDetail from './TrackDetail'
+
     export default {
         props: {
             track: {
@@ -33,6 +35,9 @@
             selectTrack () {
                 this.$emit('select',this.track.id)
                 this.$bus.$emit('set-track', this.track)
+            },
+            goToTrack (id) {
+                this.$router.push({name: 'track', params: { id }})
             }
         }
     }

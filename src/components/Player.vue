@@ -1,6 +1,6 @@
 <template lang="pug">
-  .content
-    p.is-128x128
+  .content(v-if="track && track.album")
+    p
       img(:src="track.album.images[0].url")
     p
       strong {{ track.name }}
@@ -25,6 +25,9 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  img  {
+    width: 124px;
+    border-radius: 50%;
+  }
 </style>
