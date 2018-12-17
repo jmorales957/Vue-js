@@ -12,11 +12,14 @@
       .container.has-text-centered
         h1 Musica
         h1.subtitle Canciones que estan buenisismas
+        mplayer
 </template>
 
 <script>
+  import Mplayer from '@/components/Player'
     export default {
-        name: "Header"
+        name: "Header",
+        components: { Mplayer}
     }
 </script>
 
