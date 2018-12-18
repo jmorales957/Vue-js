@@ -1,12 +1,11 @@
 <template lang ="pug">
   main
-
-
-    m-notification(v-show="showNotification"  :isSuccess="showFind")
-      p(slot="body" v-show="!showFind") No se encontraron resultados
-      p(slot="body" v-show="showFind") {{ searchMessage }}
-
-    mloader(v-show="isLoading")
+    transition(name="move")
+      m-notification(v-show="showNotification"  :isSuccess="showFind")
+        p(slot="body" v-show="!showFind") No se encontraron resultados
+        p(slot="body" v-show="showFind") {{ searchMessage }}
+    transition(name="move")
+      mloader(v-show="isLoading")
     section.section(v-show="!isLoading")
       nav.nav
         .container
@@ -26,8 +25,9 @@
         .columns.is-multiline
           .column.is-one-quarter(v-for="t in tracks")
             mtrack(
-            v-bind:track="t",
-            @select="setSelectedTrack"
+            v-blur="t.preview_url",
+            :track="t",
+            @select="setSelectedTrack",
             :class="{ 'is-active': t.id === selectedTrack }")
 
 </template>

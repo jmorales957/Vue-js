@@ -1,22 +1,42 @@
 <template lang="pug">
   .container
     .columns
-      .column.is-5.is-offset-4
-        mtrack(:track="track")
+      .column.is-3.has-text-centered
+        figure.media-left
+          p.image
+            img(:src="track.album.images[0].url")
+          p
+            a.button.is-primary-is-large
+              span.icon(@click="selectTrack")
+      .column.is-8
+        .panel
+          .panel-heading
+            h1.title {{track.name}}
+          .panel-block
+            article.media
+              .media-content
+                .content
+                  ul(v-for="(v,k) in track")
+                    li
+                      strong {{k}}:&nbsp;
+                      span {{v}}
+
+              nav.level
+                .level-left
+                  a.level-item
 </template>
 
 <script>
     import musicService from '@/services/track'
-    import Mtrack from '@/components/Track.vue'
-
+    import trackMixin from '@/mixins/mixin'
 
     export default {
+        mixins: [trackMixin],
         data () {
            return{
                track: {}
            }
         },
-        components: { Mtrack },
         created () {
             const id = this.$route.params.id
             musicService.getById(id)

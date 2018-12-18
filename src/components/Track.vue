@@ -12,19 +12,21 @@
           p.title.is-6
             strong {{track.name}}
           p.subtitle.is-6 {{track.artists[0].name}}
-      .content
-        small {{track.duration_ms | ms-to-mm }}
-        nav.level
-          .level-left
-            a.level-item
-              span.icon.is-small(@click="selectTrack") play
-            a.level-item
-              span.icon.is-small(@click="goToTrack(track.id)") detalle
+        .content
+          small {{track.duration_ms | ms-to-mm }}
+          nav.level
+            .level-left
+              a.button.level-item.is-primary(hidden)
+                span.icon.is-small(@click="selectTrack") play
+              a.button.level-item.is-warning
+                span.icon.is-small(@click="goToTrack(track.id)") detalle
+
 </template>
 
 <script>
-
+    import trackMixin from '@/mixins/mixin'
     export default {
+        mixins: [trackMixin],
         props: {
             track: {
                 type: Object, required: true
@@ -32,11 +34,8 @@
         },
         components: {},
         methods: {
-            selectTrack () {
-                this.$emit('select',this.track.id)
-                this.$bus.$emit('set-track', this.track)
-            },
             goToTrack (id) {
+                if(!this.track.preview_url) {return}
                 this.$router.push({name: 'track', params: { id }})
             }
         }
