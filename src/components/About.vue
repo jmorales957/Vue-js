@@ -1,6 +1,7 @@
 <template lang="pug">
   .container
-    h.title Nosotros
+    h.title Reproductor de Musica
+    p.subtitle Aplicacion desarrollada con Vue js
 </template>
 
 <script>
